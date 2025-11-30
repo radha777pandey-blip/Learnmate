@@ -37,25 +37,38 @@
             <!-- FEATURES SECTION -->
             <section class="features" id="featuresSection">
 
-                        <div class="card">
+                        <div class="card" id="bookSuggestions">
                                     <h3>📚 BOOK SUGGESTIONS</h3>
                                     <p>Personalized book recommendations for any subject.</p>
                         </div>
 
-                        <div class="card">
+                        <div class="card" id="onlineCourses">
                                     <h3>🎓 ONLINE COURSES</h3>
                                     <p>Choose from the best MOOCs and tutorials.</p>
                         </div>
 
-                       <div class="card">
+                       <div class="card" id="codingPractice">
                                     <h3>💻 CODING PRACTICE</h3>
                                     <p>Find the best platforms for DSA & interviews.</p>
                         </div>
 
-                        <div class="card">
+                        <div class="card" id="skillRoadmaps">
                                     <h3>🚀 SKILL ROADMAPS</h3>
                                     <p>Follow structured learning paths for fast growth.</p>
                         </div>
+            </section>
+
+            <!-- AI PERSONALIZATION SECTION -->
+            <section class="ai-section" id="aiSection">
+                        <h2>✨ Get AI-Powered Personalized Recommendations</h2>
+                        <div class="input-container">
+                                    <input type="text" id="userInterest" placeholder="Enter your interest or skill you want to learn (e.g., 'Web Development', 'Machine Learning', 'iOS App Development')..." maxlength="200">
+                                    <button id="generateBtn" class="btn-generate">Generate for Me</button>
+                        </div>
+                        <div id="loadingSpinner" class="loading-hidden">
+                                    <span class="spinner"></span> Generating AI recommendations...
+                        </div>
+                        <div id="resultsContainer" class="results-container"></div>
             </section>
 
             <footer>
