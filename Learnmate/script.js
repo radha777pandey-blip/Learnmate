@@ -78,36 +78,36 @@ document.querySelector(".btn-secondary").addEventListener("click", (e) => {
 // CARD CLICK FUNCTIONALITY
 // ======================
 
-// Book Suggestions Handler
+// Book Suggestions Handler -> go to dedicated 3D page
 document.getElementById("bookSuggestions").addEventListener("click", () => {
-            const interest = prompt("What subject do you want book suggestions for?");
-            if (interest) {
-                        generateAIRecommendations(interest, "books");
-            }
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+                        window.location.href = "books.html";
+            }, 400);
 });
 
-// Online Courses Handler
+// Online Courses Handler -> go to dedicated 3D page
 document.getElementById("onlineCourses").addEventListener("click", () => {
-            const interest = prompt("What topic do you want to learn?");
-            if (interest) {
-                        generateAIRecommendations(interest, "courses");
-            }
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+                        window.location.href = "courses.html";
+            }, 400);
 });
 
-// Coding Practice Handler
+// Coding Practice Handler -> go to dedicated 3D page
 document.getElementById("codingPractice").addEventListener("click", () => {
-            const interest = prompt("What type of coding practice do you want?");
-            if (interest) {
-                        generateAIRecommendations(interest, "coding");
-            }
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+                        window.location.href = "coding.html";
+            }, 400);
 });
 
-// Skill Roadmaps Handler
+// Skill Roadmaps Handler -> go to dedicated 3D page
 document.getElementById("skillRoadmaps").addEventListener("click", () => {
-            const interest = prompt("What skill do you want a roadmap for?");
-            if (interest) {
-                        generateAIRecommendations(interest, "roadmap");
-            }
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+                        window.location.href = "roadmap.html";
+            }, 400);
 });
 
 // ======================

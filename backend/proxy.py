@@ -98,47 +98,69 @@ def get_demo_response(interest, req_type, mode):
     short_responses = {
         'books': f"""📚 Recommended Books for {interest}
 
-1. "The Pragmatic Programmer" - Essential guide to professional programming practices
-2. "Clean Code" - Learn to write readable and maintainable code
-3. "Design Patterns" by Gang of Four - Comprehensive design patterns reference
-4. "Cracking the Coding Interview" - Ace your technical interviews
-5. "Code Complete" by Steve McConnell - Deep dive into software construction""",
+1. "The Pragmatic Programmer" - Essential guide to professional programming practices  
+   Link: https://pragprog.com/titles/tpp20/the-pragmatic-programmer/
+2. "Clean Code" - Learn to write readable and maintainable code  
+   Link: https://www.pearson.com/en-us/subject-catalog/p/clean-code/P200000006377/9780132350884
+3. "Design Patterns" by Gang of Four - Comprehensive design patterns reference  
+   Link: https://learning.oreilly.com/library/view/design-patterns-elements/0201633612/
+4. "Cracking the Coding Interview" - Ace your technical interviews  
+   Link: https://www.crackingthecodinginterview.com/
+
+🎥 Helpful YouTube videos
+- "How to Read Coding Books Effectively" – freeCodeCamp.org (YouTube)
+- "{interest} Book Recommendations" – search on YouTube for curated lists""",
         
         'courses': f"""🎓 Top Online Courses for {interest}
 
-1. Coursera - Full {interest} Specialization (4-6 months, beginner-friendly)
-2. Udemy - {interest} Bootcamp (40+ hours, lifetime access)
-3. edX - Professional Certificate Program (university-backed credentials)
-4. LinkedIn Learning - {interest} Essentials (interactive, skill-based)
-5. Codecademy - Interactive {interest} Path (hands-on coding)""",
+1. Coursera – {interest} Specialization (4–6 months, beginner-friendly)  
+   Link: https://www.coursera.org
+2. Udemy – Complete {interest} Bootcamp (40+ hours, lifetime access)  
+   Link: https://www.udemy.com
+3. edX – Professional Certificate in {interest} (university-backed)  
+   Link: https://www.edx.org
+4. LinkedIn Learning – {interest} Essential Training  
+   Link: https://www.linkedin.com/learning
+
+🎥 Sample YouTube playlists
+- "Complete {interest} Course" – freeCodeCamp.org (YouTube)
+- "Crash Course in {interest}" – search on YouTube for updated playlists""",
         
         'coding': f"""💻 Best Platforms for {interest} Practice
 
-1. LeetCode - 2000+ DSA problems with difficulty levels
-2. HackerRank - Coding challenges and real-time competitions
-3. CodeSignal - AI-powered assessments and skill tracking
-4. GeeksforGeeks - Tutorials with embedded practice problems
-5. InterviewBit - Placement-focused DSA training""",
+1. LeetCode – 2000+ DSA problems with difficulty levels  
+   Link: https://leetcode.com
+2. HackerRank – Coding challenges and interview kits  
+   Link: https://www.hackerrank.com
+3. Codeforces – Competitive programming contests  
+   Link: https://codeforces.com
+4. CodeSignal – Timed assessments and practice  
+   Link: https://codesignal.com
+
+🎥 YouTube resources
+- "DSA Playlist" – Abdul Bari / Kunal Kushwaha (YouTube)
+- "LeetCode Patterns" – NeetCode (YouTube)""",
         
         'roadmap': f"""🚀 {interest} Learning Roadmap
 
-Phase 1: Foundations
-- Core concepts and basics (Weeks 1-4)
-- Time: 10-15 hours/week
+Phase 1: Foundations (Weeks 1–4)  
+- Learn core fundamentals and key terminology  
+- Follow a beginner playlist on YouTube for {interest}
 
-Phase 2: Intermediate Skills
-- Build projects and practice (Weeks 5-12)
-- Time: 15-20 hours/week
+Phase 2: Core Skills (Weeks 5–12)  
+- Complete 1–2 structured courses (Coursera/Udemy for {interest})  
+- Start 1–2 guided mini-projects
 
-Phase 3: Advanced Topics
-- Master complex concepts (Weeks 13-20)
-- Time: 20-25 hours/week
+Phase 3: Projects & Practice (Weeks 13–20)  
+- Build 2–3 real projects and publish on GitHub  
+- Practice related coding problems on LeetCode / HackerRank
 
-Phase 4: Interview Prep
-- Polish skills and practice interviews (Weeks 21-24)
-- Time: 15-20 hours/week
+Phase 4: Interview & Portfolio (Weeks 21–24)  
+- Refine resume and GitHub profile  
+- Mock interviews + timed challenges
 
-Total Duration: 3-6 months | Recommended: Daily 30-60 min practice"""
+🎥 Roadmap inspiration
+- Search YouTube for "{interest} roadmap" from channels like Roadmap.sh, freeCodeCamp, Kunal Kushwaha"""
     }
     
     if mode == 'full' or req_type == 'full':
@@ -156,12 +178,33 @@ def build_prompt(interest, req_type, mode):
                 "4. Learning Roadmap (4-5 phases with key skills)\n"
                 "5. Timeline & Tips (Realistic timeline and actionable tips)\n\n"
                 "Keep it structured, practical, and motivating.")
-    # short type prompts
+    # short type prompts – optimized for category pages with links and videos
     mapping = {
-        'books': f'Generate 5 highly recommended books for someone interested in "{interest}". For each book, provide: Title, Author, and a brief 1-line description. Format as a clean list.',
-        'courses': f'Suggest 5 best online courses for learning "{interest}". Include platform name (Coursera, Udemy, edX, etc.), course name, and duration. Format as a clean list.',
-        'coding': f'Recommend 5 best platforms and resources for "{interest}" coding practice. Include platform name and what makes it special for this type of practice. Format as a clean list.',
-        'roadmap': f'Create a structured learning roadmap for "{interest}". Break it into 4-5 progressive phases with specific skills to learn in each phase. Format clearly with phases as headings.'
+        'books': (
+            f'Generate 4–6 highly recommended books for someone interested in "{interest}". '
+            f'For each book, provide: Title, Author, 1-line description, and a direct URL link (http/https). '
+            f'After the list, recommend 1–2 specific YouTube videos or playlists (with exact titles and channels) related to "{interest}". '
+            f'Format as a clean, readable list.'
+        ),
+        'courses': (
+            f'Suggest 4–6 of the best online courses for learning "{interest}". '
+            f'Include platform name (Coursera, Udemy, edX, etc.), exact course name, difficulty (beginner/intermediate/advanced), '
+            f'and a direct course or catalog URL. After the list, recommend 1–2 specific YouTube playlists or channels (with titles) '
+            f'for "{interest}". Format clearly as bullet points.'
+        ),
+        'coding': (
+            f'Recommend 4–6 of the best coding practice platforms and resources for "{interest}". '
+            f'For each, include: platform name, focus (DSA, competitive programming, projects, etc.), and a direct URL. '
+            f'Then suggest 1–2 YouTube series (with titles and channels) that walk through practice problems or patterns for "{interest}". '
+            f'Format as a structured list.'
+        ),
+        'roadmap': (
+            f'Create a structured learning roadmap for "{interest}". '
+            f'Break it into 4–5 clearly labeled phases with timelines (e.g., Weeks 1–4), key skills, and 1–2 example resources per phase '
+            f'(course names, documentation pages, or playlists with URLs when possible). '
+            f'At the end, suggest 1–2 YouTube videos or playlists titled as "{interest} roadmap" style content. '
+            f'Use headings for each phase and keep it very clear.'
+        )
     }
     return mapping.get(req_type, mapping['books'])
 

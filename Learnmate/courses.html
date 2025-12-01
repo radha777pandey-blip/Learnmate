@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LearnMate • Online Courses</title>
+  <link rel="stylesheet" href="explore.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body data-type="courses">
+  <canvas id="three-bg"></canvas>
+
+  <div class="container">
+    <h1>🎓 COURSE NAVIGATOR</h1>
+    <p class="tagline">
+      Discover the best MOOCs, tutorials, and certifications with direct enrollment links and video previews.
+    </p>
+
+    <section class="block">
+      <h2>What do you want to master?</h2>
+      <p>Example: "Full-stack web development", "Python for data science", "Cloud fundamentals".</p>
+      <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <input
+          id="interestInput"
+          type="text"
+          placeholder="Enter your topic or goal..."
+          maxlength="200"
+          style="flex: 1; min-width: 260px; padding: 12px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.3); color: #fff; outline: none;"
+        />
+        <button
+          id="generateCategoryBtn"
+          style="padding: 12px 24px; border-radius: 999px; border: none; cursor: pointer; background: linear-gradient(135deg,#00d4ff,#7f5dff); color: #fff; font-weight: 600;"
+        >
+          Find Courses
+        </button>
+      </div>
+      <div id="loadingSpinner" style="margin-top: 16px; display: none; font-size: 14px; opacity: 0.8;">
+        <span class="spinner"></span> Gathering top-rated courses and videos...
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Results</h2>
+      <div id="resultsContainer" style="margin-top: 10px; font-size: 16px;"></div>
+    </section>
+
+    <section class="block" style="margin-top: 40px; font-size: 14px; opacity: 0.7;">
+      <p>
+        The AI prioritizes well-reviewed courses from platforms like Coursera, Udemy, edX, and YouTube playlists.
+        Return to the <a href="index.html" style="color:#7f9dff;">home page</a> to switch categories.
+      </p>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="explore3d.js"></script>
+  <script src="category.js"></script>
+</body>
+</html>
+
+
