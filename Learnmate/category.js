@@ -19,15 +19,26 @@ document.addEventListener('DOMContentLoaded', () => {
   button.addEventListener('click', async () => {
     const interest = input.value.trim();
     if (!interest) {
-      alert('Please enter your interest or goal.');
+      if (window.learnmateUtils) {
+        window.learnmateUtils.showToast('Please enter your interest or goal', 'error');
+      } else {
+        alert('Please enter your interest or goal.');
+      }
       return;
     }
 
     // UI loading state
     button.disabled = true;
+    const originalText = button.textContent;
     button.textContent = 'Generating...';
-    if (loadingSpinner) loadingSpinner.style.display = 'block';
-    resultsContainer.innerHTML = '';
+    
+    // Show skeleton loading if available
+    if (window.learnmateUtils) {
+      window.learnmateUtils.showSkeletonLoading(resultsContainer);
+    } else {
+      if (loadingSpinner) loadingSpinner.style.display = 'block';
+      resultsContainer.innerHTML = '';
+    }
 
     try {
       const response = await fetch(`${API_BASE}/api/recommend`, {
@@ -42,8 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(errorMsg);
       }
 
+      const startTime = Date.now();
       const data = await response.json();
       const content = data.content || '';
+      const responseTime = Date.now() - startTime;
+
+      // Track analytics
+      if (window.trackEvent) {
+        window.trackEvent('search', { interest, type: pageType });
+        window.trackEvent('response_time', { time: responseTime });
+      }
+
+      // Add to history
+      if (window.learnmateUtils) {
+        window.learnmateUtils.addToHistory(interest, pageType);
+      }
 
       const typeLabels = {
         books: 'Book Recommendations',
@@ -52,30 +76,36 @@ document.addEventListener('DOMContentLoaded', () => {
         roadmap: 'Skill Roadmap'
       };
 
-      const heading = typeLabels[pageType] || 'Recommendations';
+      const heading = `${typeLabels[pageType] || 'Recommendations'} for "${interest}"`;
 
-      resultsContainer.innerHTML = `
-        <div class="result-box">
-          <h3>${heading} for "${interest}"</h3>
-          <p>${content.replace(/\n/g, '<br>')}</p>
-        </div>
-      `;
+      // Use enhanced result box if available
+      if (window.learnmateUtils) {
+        resultsContainer.innerHTML = window.learnmateUtils.createEnhancedResultBox(heading, content, pageType);
+      } else {
+        resultsContainer.innerHTML = `
+          <div class="result-box">
+            <h3>${heading}</h3>
+            <p>${content.replace(/\n/g, '<br>')}</p>
+          </div>
+        `;
+      }
+      
+      // Smooth scroll to results
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      
     } catch (err) {
       console.error('Category page error:', err);
-      resultsContainer.innerHTML = `<div class="error-message">⚠️ ${err.message}</div>`;
+      
+      // Use enhanced error display with retry
+      if (window.learnmateUtils) {
+        const retryFn = () => button.click();
+        resultsContainer.innerHTML = window.learnmateUtils.createErrorWithRetry(err.message, retryFn);
+      } else {
+        resultsContainer.innerHTML = `<div class="error-message">⚠️ ${err.message}</div>`;
+      }
     } finally {
       button.disabled = false;
-      if (pageType === 'books') {
-        button.textContent = 'Generate Book List';
-      } else if (pageType === 'courses') {
-        button.textContent = 'Find Courses';
-      } else if (pageType === 'coding') {
-        button.textContent = 'Get Practice Plan';
-      } else if (pageType === 'roadmap') {
-        button.textContent = 'Build Roadmap';
-      } else {
-        button.textContent = 'Generate';
-      }
+      button.textContent = originalText;
       if (loadingSpinner) loadingSpinner.style.display = 'none';
     }
   });

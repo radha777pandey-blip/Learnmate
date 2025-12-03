@@ -120,15 +120,17 @@ async function generateAIRecommendations(interest, type) {
             const resultsContainer = document.getElementById("resultsContainer");
             const loadingSpinner = document.getElementById("loadingSpinner");
 
-            // Show loading state
-            loadingSpinner.classList.add("loading-visible");
-            resultsContainer.innerHTML = "";
+            // Show skeleton loading if available
+            if (window.learnmateUtils) {
+                window.learnmateUtils.showSkeletonLoading(resultsContainer);
+            } else {
+                loadingSpinner.classList.add("loading-visible");
+                resultsContainer.innerHTML = "";
+            }
 
             try {
                         const apiUrl = `${API_BASE}/api/recommend`;
                         console.log('Fetching from:', apiUrl);
-                        console.log('API_BASE:', API_BASE);
-                        console.log('Hostname:', window.location.hostname);
                         
                         // Ask the backend proxy to generate recommendations (backend will call OpenAI)
                         const response = await fetch(apiUrl, {
@@ -145,8 +147,21 @@ async function generateAIRecommendations(interest, type) {
                                     throw new Error(errorMsg);
                         }
 
+                        const startTime = Date.now();
                         const data = await response.json();
                         const result = data.content;
+                        const responseTime = Date.now() - startTime;
+
+                        // Track analytics
+                        if (window.trackEvent) {
+                            window.trackEvent('search', { interest, type });
+                            window.trackEvent('response_time', { time: responseTime });
+                        }
+
+                        // Add to history
+                        if (window.learnmateUtils) {
+                            window.learnmateUtils.addToHistory(interest, type);
+                        }
 
                         displayResults(result, interest, type);
             } catch (error) {
@@ -155,7 +170,14 @@ async function generateAIRecommendations(interest, type) {
                         if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                                     errorMsg = 'Cannot reach API server. Make sure the proxy is running on http://localhost:5000';
                         }
-                        resultsContainer.innerHTML = `<div class="error-message">⚠️ Error: ${errorMsg}</div>`;
+                        
+                        // Use enhanced error display with retry
+                        if (window.learnmateUtils) {
+                            const retryFn = () => generateAIRecommendations(interest, type);
+                            resultsContainer.innerHTML = window.learnmateUtils.createErrorWithRetry(errorMsg, retryFn);
+                        } else {
+                            resultsContainer.innerHTML = `<div class="error-message">⚠️ Error: ${errorMsg}</div>`;
+                        }
             } finally {
                         loadingSpinner.classList.remove("loading-visible");
             }
@@ -180,14 +202,23 @@ function displayResults(content, interest, type) {
                         roadmap: "🚀"
             };
 
-            const resultHTML = `
+            const title = `${typeEmojis[type]} ${interest.toUpperCase()}`;
+            
+            // Use enhanced result box if available
+            if (window.learnmateUtils) {
+                resultsContainer.innerHTML = window.learnmateUtils.createEnhancedResultBox(title, content, type);
+            } else {
+                const resultHTML = `
                         <div class="result-box">
-                                    <h3>${typeEmojis[type]} ${interest.toUpperCase()}</h3>
+                                    <h3>${title}</h3>
                                     <p>${content.replace(/\n/g, "<br>")}</p>
                         </div>
-            `;
-
-            resultsContainer.innerHTML = resultHTML;
+                `;
+                resultsContainer.innerHTML = resultHTML;
+            }
+            
+            // Smooth scroll to results
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // Generate Button Handler

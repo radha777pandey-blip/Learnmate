@@ -16,6 +16,7 @@ body {
             background: #0f0f16;
             color: white;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
 }
 /* Fade-out page transition */
 body.fade-out {
