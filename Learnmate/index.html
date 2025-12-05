@@ -4,10 +4,30 @@
 <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>LEARNMATE - AI LEARNING</title>
+            <meta name="description" content="AI-powered learning & skill recommendation system. Get personalized book recommendations, online courses, coding practice platforms, and skill roadmaps." />
+            <meta name="keywords" content="AI learning, book recommendations, online courses, coding practice, skill roadmap, personalized learning" />
+            <meta name="author" content="LearnMate Team" />
+            
+            <!-- Open Graph / Facebook -->
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://learnmate.example.com/" />
+            <meta property="og:title" content="LearnMate - AI-Powered Learning Assistant" />
+            <meta property="og:description" content="Get personalized book recommendations, courses, coding platforms, and skill roadmaps powered by AI." />
+            
+            <!-- Twitter -->
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content="https://learnmate.example.com/" />
+            <meta property="twitter:title" content="LearnMate - AI-Powered Learning Assistant" />
+            <meta property="twitter:description" content="Get personalized book recommendations, courses, coding platforms, and skill roadmaps powered by AI." />
+            
+            <title>LearnMate - AI-Powered Learning & Skill Recommender</title>
+            
+            <!-- Favicon -->
+            <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
             <!-- Link CSS -->
             <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="features.css">
 
             <!-- Google Fonts -->
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
@@ -37,25 +57,38 @@
             <!-- FEATURES SECTION -->
             <section class="features" id="featuresSection">
 
-                        <div class="card">
+                        <div class="card" id="bookSuggestions">
                                     <h3>📚 BOOK SUGGESTIONS</h3>
                                     <p>Personalized book recommendations for any subject.</p>
                         </div>
 
-                        <div class="card">
+                        <div class="card" id="onlineCourses">
                                     <h3>🎓 ONLINE COURSES</h3>
                                     <p>Choose from the best MOOCs and tutorials.</p>
                         </div>
 
-                       <div class="card">
+                       <div class="card" id="codingPractice">
                                     <h3>💻 CODING PRACTICE</h3>
                                     <p>Find the best platforms for DSA & interviews.</p>
                         </div>
 
-                        <div class="card">
+                        <div class="card" id="skillRoadmaps">
                                     <h3>🚀 SKILL ROADMAPS</h3>
                                     <p>Follow structured learning paths for fast growth.</p>
                         </div>
+            </section>
+
+            <!-- AI PERSONALIZATION SECTION -->
+            <section class="ai-section" id="aiSection">
+                        <h2>✨ Get AI-Powered Personalized Recommendations</h2>
+                        <div class="input-container">
+                                    <input type="text" id="userInterest" placeholder="Enter your interest or skill you want to learn (e.g., 'Web Development', 'Machine Learning', 'iOS App Development')..." maxlength="200">
+                                    <button id="generateBtn" class="btn-generate">Generate for Me</button>
+                        </div>
+                        <div id="loadingSpinner" class="loading-hidden">
+                                    <span class="spinner"></span> Generating AI recommendations...
+                        </div>
+                        <div id="resultsContainer" class="results-container"></div>
             </section>
 
             <footer>
@@ -63,7 +96,13 @@
             </footer>
 
             <!-- Link JavaScript -->
+            <script src="enhanced.js"></script>
             <script src="script.js"></script>
+            <script src="pdf-export.js"></script>
+            <script src="share-links.js"></script>
+            <script src="theme-toggle.js"></script>
+            <script src="autocomplete.js"></script>
+            <script src="analytics.js"></script>
 </body>
 
 </html>

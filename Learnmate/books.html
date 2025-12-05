@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LearnMate • Book Recommendations</title>
+  <link rel="stylesheet" href="explore.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body data-type="books">
+  <canvas id="three-bg"></canvas>
+
+  <div class="container">
+    <h1>📚 SMART BOOK FINDER</h1>
+    <p class="tagline">
+      Get AI-curated books, complete with direct links and related videos, tailored to your interest.
+    </p>
+
+    <section class="block">
+      <h2>Tell us what you want to learn</h2>
+      <p>Example: "Data Structures in Java", "Machine Learning basics", "Frontend web development".</p>
+      <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <input
+          id="interestInput"
+          type="text"
+          placeholder="Enter your topic or goal..."
+          maxlength="200"
+          style="flex: 1; min-width: 260px; padding: 12px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.3); color: #fff; outline: none;"
+        />
+        <button
+          id="generateCategoryBtn"
+          style="padding: 12px 24px; border-radius: 999px; border: none; cursor: pointer; background: linear-gradient(135deg,#00d4ff,#7f5dff); color: #fff; font-weight: 600;"
+        >
+          Generate Book List
+        </button>
+      </div>
+      <div id="loadingSpinner" style="margin-top: 16px; display: none; font-size: 14px; opacity: 0.8;">
+        <span class="spinner"></span> Generating AI-powered book recommendations...
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Results</h2>
+      <div id="resultsContainer" style="margin-top: 10px; font-size: 16px;"></div>
+    </section>
+
+    <section class="block" style="margin-top: 40px; font-size: 14px; opacity: 0.7;">
+      <p>
+        Tip: Look for blue underlined text – those are direct links to books, course pages, or videos suggested by the AI.
+        You can always go back to the <a href="index.html" style="color:#7f9dff;">home page</a> to explore other categories.
+      </p>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="enhanced.js"></script>
+  <script src="books3d.js"></script>
+  <script src="category.js"></script>
+  <script src="pdf-export.js"></script>
+  <script src="share-links.js"></script>
+  <script src="theme-toggle.js"></script>
+  <script src="autocomplete.js"></script>
+  <script src="analytics.js"></script>
+</body>
+</html>
+
+
