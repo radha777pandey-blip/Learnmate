@@ -13,6 +13,11 @@ except ImportError as e:
     print(f'Warning: ML models not available: {e}')
     ML_AVAILABLE = False
 
+# Import input validation
+from manage import InputValidator, SearchManager
+validator = InputValidator()
+search_manager = SearchManager()
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -222,6 +227,18 @@ def recommend():
     if not interest:
         return jsonify({'error': 'Missing "interest" in request body.'}), 400
 
+    # Validate the interest query
+    is_valid, validation_message, cleaned_interest = validator.validate_and_clean(interest)
+    if not is_valid:
+        return jsonify({
+            'error': validation_message,
+            'original_query': interest,
+            'suggestions': search_manager._get_suggestions()
+        }), 400
+
+    # Use cleaned interest for processing
+    interest = cleaned_interest
+
     # Use demo mode if enabled
     if DEMO_MODE:
         demo_content = get_demo_response(interest, req_type, mode)
@@ -300,13 +317,24 @@ def classify_interest():
         return jsonify({}), 200
     data = request.get_json() or {}
     interest = data.get('interest')
+    
     if not interest:
         return jsonify({'error': 'Missing interest'}), 400
+    
+    # Validate the interest query
+    is_valid, validation_message, cleaned_interest = validator.validate_and_clean(interest)
+    if not is_valid:
+        return jsonify({
+            'error': validation_message,
+            'original_query': interest,
+            'suggestions': search_manager._get_suggestions()
+        }), 400
+    
     if not ML_AVAILABLE or not interest_classifier:
         return jsonify({'error': 'ML unavailable'}), 503
     try:
-        category, scores = interest_classifier.classify_interest(interest)
-        return jsonify({'interest': interest, 'category': category})
+        category, scores = interest_classifier.classify_interest(cleaned_interest)
+        return jsonify({'interest': cleaned_interest, 'category': category, 'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
